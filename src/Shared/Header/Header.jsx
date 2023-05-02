@@ -62,8 +62,8 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          <NavLink className="btn btn-ghost normal-case text-xl">
-            daisyUI
+          <NavLink to='/' className="btn btn-ghost normal-case text-xl">
+            LobonDorkan
           </NavLink>
         </div>
         <div className="navbar-center hidden lg:flex">
