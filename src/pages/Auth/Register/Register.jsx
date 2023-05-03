@@ -2,31 +2,54 @@ import { useState } from "react";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../provider/Auth/AuthProvider";
+import validator from "../../../utility/validator";
 
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { register } = useAuth();
+  const { register, setError, error } = useAuth();
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [inputError, setInputError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (validator(email, password)) {
+      setInputError(validator(email, password));
+      return;
+    }
 
     // console.log(name, photoUrl, email, password);
     try {
       await register(email, password, name, photoUrl);
+      console.log("location try", {
+        location,
+        error,
+        inputError,
+      });
 
       // redirect to previous page
-      navigate(location?.state?.from?.pathname || "/");
+      if (error) {
+        console.log("location error", {
+          location,
+          error,
+          inputError,
+        });
+
+        return;
+      }
+
+      navigate(location?.state?.from?.pathname || "/", { replace: true });
     } catch (error) {
+      console.log("location catch", location, error, error.message, inputError);
       console.error(error);
       console.log(error.message);
     }
   };
+  console.log({ error, inputError });
 
   return (
     <div className="container px-8 mx-auto">
@@ -43,11 +66,9 @@ const Register = () => {
                   <div className="py-8 text-base leading-6 space-y-8 text-gray-700 sm:text-lg sm:leading-7">
                     <div className="relative">
                       <input
-                        autoComplete="off"
                         id="name"
                         name="name"
-      
-                        onBlur={(e) => setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                         type="text"
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Enter your name"
@@ -56,16 +77,15 @@ const Register = () => {
                         htmlFor="name"
                         className="absolute left-4 -top-6 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-6 peer-focus:text-gray-300 peer-focus:text-sm"
                       >
-                        Enter your name
+                        Enter your name{" "}
+                        <span className="ms-2 text-info">Optional</span>
                       </label>
                     </div>
                     <div className="relative">
                       <input
-                        autoComplete="off"
                         id="photoUrl"
                         name="photoUrl"
-      
-                        onBlur={(e) => setPhotoUrl(e.target.value)}
+                        onChange={(e) => setPhotoUrl(e.target.value)}
                         type="text"
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Enter your photoUrl"
@@ -74,35 +94,40 @@ const Register = () => {
                         htmlFor="photoUrl"
                         className="absolute left-4 -top-6 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-6 peer-focus:text-gray-300 peer-focus:text-sm"
                       >
-                        Enter your photoUrl
+                        Enter your photoUrl{" "}
+                        <span className="ms-2 text-info">Optional</span>
                       </label>
                     </div>
                     <div className="relative">
                       <input
-                        autoComplete="off"
                         id="email"
                         name="email"
-      
-                        onBlur={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          setError(null);
+                        }}
                         type="text"
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Email address"
+                        required
                       />
                       <label
                         htmlFor="email"
                         className="absolute left-4 -top-6 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-6 peer-focus:text-gray-300 peer-focus:text-sm"
                       >
-                        Email Address
+                        Email Address{" "}
+                        <span className="ms-2 text-warning">required</span>
                       </label>
                     </div>
                     <div className="relative">
                       <input
-                        autoComplete="off"
                         id="password"
                         name="password"
                         type="password"
-      
-                        onBlur={(e) => setPassword(e.target.value)}
+                        onChange={(e) =>{
+                          setPassword(e.target.value);
+                          setError(null)
+                        }}
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Password"
                       />
@@ -110,13 +135,28 @@ const Register = () => {
                         htmlFor="password"
                         className="absolute left-4 -top-6 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-6 peer-focus:text-gray-300 peer-focus:text-sm"
                       >
-                        Password
+                        Password{" "}
+                        <span className="ms-2 text-warning">required</span>
                       </label>
                     </div>
+                    <p className="">
+                      {inputError && (
+                        <span className="text-red-500">
+                          {inputError}
+                        </span>
+                      )}
+                    </p>
+                    <p className="">
+                      {error && <span className="text-red-500">{error}</span>}
+                    </p>
                     <div className="relative">
                       <button
                         onClick={handleSubmit}
-                        className="bg-blue-500 text-white rounded-md px-2 py-1"
+                        className={`${
+                          email === "" || password === "" || inputError
+                            ? "bg-blue-800"
+                            : "bg-blue-500"
+                        } text-white rounded-md px-2 py-1 `}
                       >
                         Submit
                       </button>

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { useAuth } from "../../provider/Auth/AuthProvider";
-
+import logo from "../../assets/logo.png";
 const Header = () => {
   const { user, logout } = useAuth();
 
@@ -62,8 +62,14 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          <NavLink to='/' className="btn btn-ghost normal-case text-xl">
-            LobonDorkan
+          <NavLink
+            to="/"
+            className="btn btn-ghost normal-case text-xl flex items-center justify-center gap-3"
+          >
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white">
+              <img src={logo} alt="logo" className=" w-full h-full" />
+            </div>
+            <span className="hidden sm:inline-block">লবণ দরকার</span>
           </NavLink>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -129,10 +135,22 @@ const Header = () => {
                 </div>
               </div>
               <div className="dropdown dropdown-end">
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                  <div className="w-10 rounded-full">
-                    <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <label
+                  tabIndex={0}
+                  className="btn btn-ghost btn-circle avatar relative group"
+                >
+                  <div className="  ">
+                    <img
+                      className="w-10 rounded-full"
+                      src={
+                        user?.photoURL ||
+                        "https://bit.ly/40XidAA"/* if there is no image then show this placeholder image */
+                      }
+                    />
                   </div>
+                  <h5 className="group-hover:block hidden w-fit whitespace-nowrap font-bold absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 p-2 text-white bg-slate-700 z-50 rounded">
+                    {user?.displayName || <><span className="text-red-400">Anonymous</span></>}
+                  </h5>
                 </label>
                 <ul
                   tabIndex={0}
@@ -171,7 +189,11 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-              <button type="button" onClick={logout} className="btn btn-warning  ">
+              <button
+                type="button"
+                onClick={logout}
+                className="btn btn-warning  "
+              >
                 Logout
               </button>
             </>
