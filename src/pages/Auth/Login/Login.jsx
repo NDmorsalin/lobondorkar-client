@@ -99,7 +99,10 @@ const Login = () => {
                     Login Form with Floating Labels
                   </h1>
                 </div>
-                <div className="divide-y divide-gray-200">
+                <form
+                  onSubmit={handleSubmit}
+                  className="divide-y divide-gray-200"
+                >
                   <div className="py-8 text-base leading-6 space-y-8 text-gray-700 sm:text-lg sm:leading-7">
                     <div className="relative">
                       <input
@@ -145,7 +148,8 @@ const Login = () => {
                     </div>
                     <div className="relative">
                       <button
-                        onClick={handleSubmit}
+                        // onClick={handleSubmit}
+                        type="submit"
                         className="bg-blue-500 text-white rounded-md px-2 py-1"
                       >
                         Submit
@@ -165,12 +169,14 @@ const Login = () => {
 
                     <div className="space-y-4">
                       <button
+                        type="button"
                         onClick={handleGoogleLogin}
                         className="btn bg-gradient-to-r from-blue-500 via-red-500 to-yellow-500 text-white items-center gap-4 w-full"
                       >
                         Login with google <FaGoogle />
                       </button>
                       <button
+                        type="button"
                         onClick={handleGithubLogin}
                         className="btn bg-gradient-to-r from-blue-800  to-purple-900 text-white items-center gap-4 w-full"
                       >
@@ -185,7 +191,7 @@ const Login = () => {
                       an Account
                     </p>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>

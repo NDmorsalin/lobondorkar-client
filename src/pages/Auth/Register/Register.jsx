@@ -59,7 +59,10 @@ const Register = () => {
                 <div>
                   <h1 className="text-2xl font-semibold">Create an account</h1>
                 </div>
-                <div className="divide-y divide-gray-200">
+                <form
+                  onSubmit={handleSubmit}
+                  className="divide-y divide-gray-200"
+                >
                   <div className="py-8 text-base leading-6 space-y-8 text-gray-700 sm:text-lg sm:leading-7">
                     <div className="relative">
                       <input
@@ -137,14 +140,15 @@ const Register = () => {
                       </label>
                     </div>
                     <p className="">
-                      
-                        <span className="text-red-500">{inputError||error}</span>
-                     
+                      <span className="text-red-500">
+                        {inputError || error}
+                      </span>
                     </p>
 
                     <div className="relative">
                       <button
-                        onClick={handleSubmit}
+                        // onClick={handleSubmit}
+                        type="submit"
                         className={`${
                           email === "" || password === "" || inputError
                             ? "bg-blue-800"
@@ -162,7 +166,7 @@ const Register = () => {
                       page
                     </p>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
