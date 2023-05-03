@@ -2,23 +2,41 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../provider/Auth/AuthProvider";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import validator from "../../../utility/validator";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const { login , loginWithGoogle, loginWithGithub} = useAuth();
+  const {
+    login,
+    loginWithGoogle,
+    loginWithGithub,
+    setLoading,
+    error,
+    setError,
+    forgetPassword,
+  } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [inputError, setInputError] = useState(error);
+
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    if (validator(email, password)) {
+      setInputError(validator(email, password));
+      return;
+    }
     try {
       await login(email, password);
       // redirect to previous page
       navigate(location?.state?.from?.pathname || "/");
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
+      setError(error.message);
+      setInputError(error.message);
     }
   };
 
@@ -30,7 +48,10 @@ const Login = () => {
       navigate(location?.state?.from?.pathname || "/");
     } catch (error) {
       console.log(error.message);
-    } 
+      setLoading(false);
+      setError(error.message);
+      setInputError(error.message);
+    }
   };
 
   // login with github
@@ -41,11 +62,30 @@ const Login = () => {
       navigate(location?.state?.from?.pathname || "/");
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
+      setError(error.message);
+      setInputError(error.message);
     }
   };
 
-
-  const forgetPassword = async () => {};
+  const handleForgetPassword = async () => {
+    if (!email) {
+      setInputError("Please enter your email for password reset        ");
+      return;
+    }
+    try {
+      await forgetPassword(email);
+      toast("Check your email for password reset link", {
+        icon: "👏",
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log(error.message);
+      setLoading(false);
+      setError(error.message);
+      setInputError(error.message);
+    }
+  };
   return (
     <div className="container px-8 mx-auto">
       <>
@@ -66,7 +106,10 @@ const Login = () => {
                         autoComplete="off"
                         id="email"
                         name="email"
-                        onBlur={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          setInputError("");
+                        }}
                         type="text"
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Email address"
@@ -75,7 +118,8 @@ const Login = () => {
                         htmlFor="email"
                         className="absolute left-4 -top-6 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-6 peer-focus:text-gray-300 peer-focus:text-sm"
                       >
-                        Email Address
+                        Email Address{" "}
+                        <span className="ms-2 text-warning">required</span>
                       </label>
                     </div>
                     <div className="relative">
@@ -84,7 +128,10 @@ const Login = () => {
                         id="password"
                         name="password"
                         type="password"
-                        onBlur={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          setInputError("");
+                        }}
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Password"
                       />
@@ -92,7 +139,8 @@ const Login = () => {
                         htmlFor="password"
                         className="absolute left-4 -top-6 text-gray-300 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-6 peer-focus:text-gray-300 peer-focus:text-sm"
                       >
-                        Password
+                        Password{" "}
+                        <span className="ms-2 text-warning">required</span>
                       </label>
                     </div>
                     <div className="relative">
@@ -103,11 +151,12 @@ const Login = () => {
                         Submit
                       </button>
                     </div>
-                    <h5 className="text-red-400">
+                    <p className="text-red-500">{inputError || error}</p>
+                    <h5 className="text-green-400">
                       {" "}
                       Forget password{" "}
                       <span
-                        onClick={forgetPassword}
+                        onClick={handleForgetPassword}
                         className="font-bold cursor-pointer"
                       >
                         send an email
@@ -115,10 +164,16 @@ const Login = () => {
                     </h5>
 
                     <div className="space-y-4">
-                      <button onClick={handleGoogleLogin} className="btn bg-gradient-to-r from-blue-500 via-red-500 to-yellow-500 text-white items-center gap-4 w-full">
+                      <button
+                        onClick={handleGoogleLogin}
+                        className="btn bg-gradient-to-r from-blue-500 via-red-500 to-yellow-500 text-white items-center gap-4 w-full"
+                      >
                         Login with google <FaGoogle />
                       </button>
-                      <button onClick={handleGithubLogin} className="btn bg-gradient-to-r from-blue-800  to-purple-900 text-white items-center gap-4 w-full">
+                      <button
+                        onClick={handleGithubLogin}
+                        className="btn bg-gradient-to-r from-blue-800  to-purple-900 text-white items-center gap-4 w-full"
+                      >
                         Login with GitHub <FaGithub />
                       </button>
                     </div>

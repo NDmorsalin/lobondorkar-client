@@ -3,6 +3,7 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -53,6 +54,13 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // forget password
+  const forgetPassword = async (email) => {
+    setLoading(true);
+    return sendPasswordResetEmail(auth, email);
+  };
+
+
   // login with google
   const googleProvider = new GoogleAuthProvider();
   const loginWithGoogle = async () => {
@@ -94,7 +102,9 @@ const AuthProvider = ({ children }) => {
     loginWithGoogle,
     loginWithGithub,
     error,
+    setLoading,
     setError,
+    forgetPassword,
   };
   console.log(error);
   return (

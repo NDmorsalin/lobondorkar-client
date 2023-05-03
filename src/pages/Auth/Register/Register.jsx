@@ -8,12 +8,12 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { register, setError, error } = useAuth();
+  const { register, error, loading } = useAuth();
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [inputError, setInputError] = useState(null);
+  const [inputError, setInputError] = useState(error);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,19 +24,16 @@ const Register = () => {
 
     // console.log(name, photoUrl, email, password);
     try {
-      await register(email, password, name, photoUrl);
-      console.log("location try", {
-        location,
-        error,
-        inputError,
-      });
+      const currentUser = await register(email, password, name, photoUrl);
 
       // redirect to previous page
-      if (error) {
+      if (error || !currentUser) {
         console.log("location error", {
           location,
           error,
           inputError,
+          loading,
+          currentUser,
         });
 
         return;
@@ -104,7 +101,7 @@ const Register = () => {
                         name="email"
                         onChange={(e) => {
                           setEmail(e.target.value);
-                          setError(null);
+                          setInputError("");
                         }}
                         type="text"
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
@@ -124,9 +121,9 @@ const Register = () => {
                         id="password"
                         name="password"
                         type="password"
-                        onChange={(e) =>{
+                        onChange={(e) => {
                           setPassword(e.target.value);
-                          setError(null)
+                          setInputError("");
                         }}
                         className="peer placeholder-transparent rounded-lg px-4 py-2 w-full text-gray-900 focus:outline-none focus:borer-rose-600"
                         placeholder="Password"
@@ -140,15 +137,11 @@ const Register = () => {
                       </label>
                     </div>
                     <p className="">
-                      {inputError && (
-                        <span className="text-red-500">
-                          {inputError}
-                        </span>
-                      )}
+                      
+                        <span className="text-red-500">{inputError||error}</span>
+                     
                     </p>
-                    <p className="">
-                      {error && <span className="text-red-500">{error}</span>}
-                    </p>
+
                     <div className="relative">
                       <button
                         onClick={handleSubmit}
