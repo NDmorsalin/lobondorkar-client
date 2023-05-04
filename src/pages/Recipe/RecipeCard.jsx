@@ -93,7 +93,7 @@ const RecipeCard = ({ recipe, handleAddToCart }) => {
             </div>
           </div>
         </div>
-        <div className="sm:flex-1 p-4">
+        <div className="sm:flex-1 p-4 text-slate-900">
           <h4 className="text-lg font-bold">Cooking Method</h4>
           <p className="">{recipe.cooking_method}</p>
         </div>

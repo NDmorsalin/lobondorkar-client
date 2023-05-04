@@ -1,4 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useEffect, useState } from "react";
+
+import { Blurhash } from "react-blurhash";
 
 // import required modules
 import { A11y, FreeMode, Pagination, Autoplay } from "swiper";
@@ -44,6 +47,16 @@ const slider = [
 ];
 
 const HeroSection = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const imageLoader = new Image();
+    imageLoader.onload = () => {
+      setImageLoaded(true);
+    };
+    imageLoader.src = sliderImg1;
+  }, [sliderImg1]);
+
   const swiper = useRef(null);
   const handleNextSlideClick = () => {
     // call swiper instance's slideNext() method
@@ -80,26 +93,41 @@ const HeroSection = () => {
         }}
       >
         {slider.map((slide) => (
-          <SwiperSlide key={slide.id}>
-            <div className="h-[80vh] relative z-10 rounded-lg">
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="h-full object-cover w-full rounded-lg"
-              />
-              <div className="px-2 sm:px-4 rounded-lg absolute w-full   mx-auto sm:mx-0 z-50 h-full  top-0 left-0 flex items-center justify-center text-center">
-                <div className="sm:w-1/2">
-                  <h3 className="text-3xl font-semibold text-orange-700 ">
-                    {slide.girding}
-                  </h3>
-                  <h2 className="text-4xl mt-1 mb-6 font-bold text-white">
-                    {slide.title}
-                  </h2>
-                  <p className="text-white">{slide.subtitle}</p>
+          <>
+            {imageLoaded ? (
+              <SwiperSlide key={slide.id}>
+                <div className="h-[80vh] relative z-10 rounded-lg">
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="h-full object-cover w-full rounded-lg"
+                  />
+                  <div className="px-2 sm:px-4 rounded-lg absolute w-full   mx-auto sm:mx-0 z-50 h-full  top-0 left-0 flex items-center justify-center text-center">
+                    <div className="sm:w-1/2">
+                      <h3 className="text-3xl font-semibold text-orange-700 ">
+                        {slide.girding}
+                      </h3>
+                      <h2 className="text-4xl mt-1 mb-6 font-bold text-white">
+                        {slide.title}
+                      </h2>
+                      <p className="text-white">{slide.subtitle}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </SwiperSlide>
+              </SwiperSlide>
+            ) : (
+              <SwiperSlide key={slide.id}>
+                <Blurhash
+                  hash="L05OB7?cve-o~U?a-mRjv{ocKRs."
+                  width={1080}
+                  height={380}
+                  resolutionX={32}
+                  resolutionY={32}
+                  punch={1}
+                />
+              </SwiperSlide>
+            )}
+          </>
         ))}
       </Swiper>
       <SliderButton label="prev" onClick={handlePrevSlideClick} />
