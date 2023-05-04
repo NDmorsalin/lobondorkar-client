@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import "@smastrom/react-rating/style.css";
 import { toast } from "react-hot-toast";
-import {Rating} from '@smastrom/react-rating'
-import { useState } from "react";
-
+import { Rating } from "@smastrom/react-rating";
+import { useMemo, useState } from "react";
+import { getShoppingCart } from "../../utility/fakedb";
 const Star = (
   <path d="M62 25.154H39.082L32 3l-7.082 22.154H2l18.541 13.693L13.459 61L32 47.309L50.541 61l-7.082-22.152L62 25.154z" />
 );
@@ -20,18 +20,23 @@ const myStyles = {
   inactiveBoxBorderColor: "#a8a8a8",
 };
 
-const RecipeCard = ({ recipe }) => {
-    const [isClicked, setIsClicked] = useState(false);
-
-  const handleAddToFavorite = async (recipe_id) => {
+const RecipeCard = ({ recipe, handleAddToCart }) => {
+  const [isClicked, setIsClicked] = useState(false);
+  const dbCard = getShoppingCart();
+  const handleAddToFavorite = (recipe) => {
     toast("Added to favorite");
     setIsClicked(true);
-    console.log("add to favorite", recipe_id);
-
+    handleAddToCart(recipe);
   };
 
-
-
+  const checkDb = useMemo(() => {
+    for (const recipeId in dbCard) {
+      if (recipe.recipe_id === recipeId) {
+        return true;
+      }
+    }
+  }, [dbCard, recipe.recipe_id]);
+  console.log(checkDb);
   return (
     <div className="">
       <div className="flex flex-wrap  bg-green-100 rounded-lg">
@@ -73,10 +78,12 @@ const RecipeCard = ({ recipe }) => {
             <div className="card-actions w-full">
               <button
                 onClick={() => {
-                  handleAddToFavorite(recipe.recipe_id);
+                  handleAddToFavorite(recipe);
                 }}
-                disabled={isClicked}
-                className={`btn  w-full ${isClicked? "btn-secondary" : "btn-info"}`}
+                disabled={isClicked || checkDb}
+                className={`btn  w-full ${
+                  isClicked ? "btn-secondary" : "btn-info"
+                }`}
               >
                 Add to Favorite
               </button>

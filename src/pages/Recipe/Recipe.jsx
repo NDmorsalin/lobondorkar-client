@@ -4,6 +4,8 @@ import Loading from "../../Shared/Loading/Loading";
 import "@smastrom/react-rating/style.css";
 import { toast } from "react-hot-toast";
 import RecipeCard from "./RecipeCard";
+import { addToCartOnLocalStorage, deleteShoppingCart, getShoppingCart } from "../../utility/fakedb";
+import { useState } from "react";
 
 const Star = (
   <path d="M62 25.154H39.082L32 3l-7.082 22.154H2l18.541 13.693L13.459 61L32 47.309L50.541 61l-7.082-22.152L62 25.154z" />
@@ -23,15 +25,31 @@ const myStyles = {
 
 const Recipe = () => {
   const data = useLoaderData();
-
+  const [cart, setCart] = useState([]);
   const navigation = useNavigation();
   if (navigation.state === "loading") {
     return <Loading />;
   }
 
-  const handleAddToFavorite = async (recipe_id) => {
-    toast("Added to favorite")
-    console.log("add to favorite",recipe_id);
+  
+  const handleAddToCart = (product) => {
+    let newCart = [];
+    const exists = cart.find((pd) => pd.recipe_id === product.recipe_id);
+    if (!exists) {
+      product.quantity = 1;
+      newCart = [...cart, product];
+    } else {
+      product.quantity = exists.quantity + 1;
+      const exceptCurrentProduct = cart.filter((pd) => pd.id !== product.id);
+      newCart = [...exceptCurrentProduct, product];
+    }
+    setCart(newCart);
+    addToCartOnLocalStorage(product.recipe_id);
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    deleteShoppingCart()
   };
 
   return (
@@ -41,7 +59,7 @@ const Recipe = () => {
         {
           // ! change color
           data.recipes.map((recipe) => (
-            <RecipeCard key={recipe.recipe_id} recipe={recipe} />
+            <RecipeCard handleAddToCart={handleAddToCart} key={recipe.recipe_id} recipe={recipe} />
           ))
         }
       </div>
