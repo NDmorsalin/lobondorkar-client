@@ -106,7 +106,7 @@ const AuthProvider = ({ children }) => {
     setError,
     forgetPassword,
   };
-  console.log(error);
+  // console.log(error);
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

@@ -59,10 +59,10 @@ const HeroSection = () => {
     <div className="container mx-auto relative py-6 sm:py-8 sm:px-8 rounded-lg group">
       <Swiper
         onInit={(swiper) => {
-          console.log("init");
+          // console.log("init");
         }}
         onSlideChange={(swiper) => {
-          console.log("slide change");
+          // console.log("slide change");
         }}
         ref={swiper}
         modules={[Pagination, Autoplay, FreeMode, A11y]}
