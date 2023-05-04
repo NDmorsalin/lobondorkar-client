@@ -8,12 +8,14 @@ import Private from "../layout/Private";
 import Recipe from "../pages/Recipe/Recipe";
 import Chefs from "../pages/Chefs/Chefs";
 import Blog from "../pages/Blog/Blog";
+import Error from "../pages/Error/Error";
 import fetchChefRecipes from "../utility/fetchData/fetchChefRecipes";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
+    errorElement:<Error/>,
     children: [
       {
         path: "/",

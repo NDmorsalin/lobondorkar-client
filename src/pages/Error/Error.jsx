@@ -1,4 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 const Error = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(-1);
+  };
   return (
     <div>
       <div className="bg-gray-100 h-screen justify-center">
@@ -103,12 +110,12 @@ const Error = () => {
           </div>
         </center>
         <center className="mt-6">
-          <a
-            href="{{url()->previous()}}"
-            className="text-gray-500 font-mono text-xl bg-gray-200 p-3 rounded-md hover:shadow-md"
+          <button
+            onClick={handleClick}
+            className="btn btn-info font-mono text-xl p-3 rounded-md hover:shadow-md"
           >
-            Go back{" "}
-          </a>
+            Go back
+          </button>
         </center>
       </div>
     </div>
