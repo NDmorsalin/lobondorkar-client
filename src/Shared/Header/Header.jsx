@@ -3,20 +3,18 @@ import { FaHeart } from "react-icons/fa";
 import { useAuth } from "../../provider/Auth/AuthProvider";
 import { getShoppingCart } from "../../utility/fakedb";
 
-
 import logo from "../../assets/logo.png";
 const Header = () => {
   const { user, logout } = useAuth();
 
   const favorites = Object.keys(getShoppingCart()).length;
-  
 
   return (
     <div className="container px-8 mx-auto">
       <div className="navbar bg-slate-800 rounded-b-lg">
         <div className="navbar-start">
           <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            <label tabIndex={0} className="btn btn-ghost p-1  lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -61,16 +59,16 @@ const Header = () => {
                   className={({ isActive }) =>
                     isActive ? "btn btn-primary" : ""
                   }
-                  to="/"
+                  to="/blog"
                 >
-                  Item 3
+                  Blog
                 </NavLink>
               </li>
             </ul>
           </div>
           <NavLink
             to="/"
-            className="btn btn-ghost normal-case text-xl flex items-center justify-center gap-3"
+            className="btn btn-ghost p-1 normal-case text-xl flex items-center justify-center gap-3"
           >
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white">
               <img src={logo} alt="logo" className=" w-full h-full" />
@@ -112,14 +110,16 @@ const Header = () => {
             </li>
           </ul>
         </div>
-        <div className="navbar-end gap-4">
+        <div className="navbar-end gap-2 sm:gap-4">
           {user ? (
             <>
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost btn-circle">
                   <div className="indicator">
                     <FaHeart />
-                    <span className="badge badge-sm indicator-item">{favorites}</span>
+                    <span className="badge badge-sm indicator-item">
+                      {favorites}
+                    </span>
                   </div>
                 </label>
                 <div
@@ -128,7 +128,7 @@ const Header = () => {
                 >
                   <div className="card-body">
                     <span className="font-bold text-lg">{favorites} Items</span>
-                    
+
                     <div className="card-actions">
                       <NavLink
                         to="/favorite"
@@ -150,12 +150,16 @@ const Header = () => {
                       className="w-10 rounded-full"
                       src={
                         user?.photoURL ||
-                        "https://bit.ly/40XidAA"/* if there is no image then show this placeholder image */
+                        "https://bit.ly/40XidAA" /* if there is no image then show this placeholder image */
                       }
                     />
                   </div>
                   <h5 className="group-hover:block hidden w-fit whitespace-nowrap font-bold absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 p-2 text-white bg-slate-700 z-50 rounded">
-                    {user?.displayName || <><span className="text-red-400">Anonymous</span></>}
+                    {user?.displayName || (
+                      <>
+                        <span className="text-red-400">Anonymous</span>
+                      </>
+                    )}
                   </h5>
                 </label>
                 <ul
@@ -184,21 +188,20 @@ const Header = () => {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive ? "btn btn-primary" : ""
-                      }
-                      to="/logout"
+                    <button
+                      type="button"
+                      onClick={logout}
+                      className="btn btn-warning  "
                     >
                       Logout
-                    </NavLink>
+                    </button>
                   </li>
                 </ul>
               </div>
               <button
                 type="button"
                 onClick={logout}
-                className="btn btn-warning  "
+                className="btn btn-warning  hidden sm:block"
               >
                 Logout
               </button>
