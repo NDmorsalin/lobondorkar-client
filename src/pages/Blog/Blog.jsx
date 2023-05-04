@@ -1,11 +1,21 @@
 import { useRef } from "react";
+import ReactToPdf from "react-to-pdf";
 
 /* eslint-disable react/no-unescaped-entities */
 const Blog = () => {
   const ref = useRef();
   return (
     <div className="container mx-auto py-6 sm:py-8 sm:px-8 rounded-lg">
-      
+      <div>
+        <ReactToPdf targetRef={ref} filename="blogPage.pdf">
+          {({ toPdf }) => (
+            <button className="btn btn-info" onClick={toPdf}>
+              Generate pdf
+            </button>
+          )}
+        </ReactToPdf>
+       
+      </div>
       <div ref={ref} className="bg-white p-4 rounded-lg shadow-xl py-8 mt-12">
         <h4 className="text-4xl font-bold text-gray-800 tracking-widest uppercase text-center">
           FAQ
