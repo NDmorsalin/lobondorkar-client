@@ -17,8 +17,8 @@ const Banner = ({ chef }) => {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Meet Our Chef
           </h2>
-          <h3 className="text-xl md:text-2xl text-white mb-4">{chef.chef.chef_name}</h3>
-          <p className="text-lg md:text-xl text-white mb-4">
+          <h3 className="text-xl md:text-2xl text-white mb-4 font-bold">{chef.chef.chef_name}</h3>
+          <p className="text-lg text-white mb-4">
             {chef.chef.bio}
           </p>
           <div className="flex justify-center md:justify-start mb-4">
