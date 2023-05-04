@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Blurhash } from "react-blurhash";
 
 /* eslint-disable react/prop-types */
-const Chef = ({ chef }) => {
+const Chef = ({ chef, children }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Chef = ({ chef }) => {
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title text-4xl">{chef.chef_name}</h2>
-
+        {children && <p className="my-4 text-xl">{children}</p>}
         <div className="my-4 flex items-center justify-center  gap-4 flex-wrap">
           <div className="">
             <div className="w-12 mx-auto h-12 flex items-center justify-center font-bold text-xl border-2 rounded-full">

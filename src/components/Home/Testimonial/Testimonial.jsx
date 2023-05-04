@@ -104,7 +104,7 @@ const Testimonial = () => {
         }}
         modules={[Pagination,Navigation, Autoplay, FreeMode, A11y]}
         spaceBetween={10}
-        slidesPerView={4}
+        slidesPerView={1}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,

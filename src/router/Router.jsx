@@ -10,12 +10,13 @@ import Chefs from "../pages/Chefs/Chefs";
 import Blog from "../pages/Blog/Blog";
 import Error from "../pages/Error/Error";
 import fetchChefRecipes from "../utility/fetchData/fetchChefRecipes";
+import fetchAllChefs from "../utility/fetchData/fetchAllChefs";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout />,
-    errorElement:<Error/>,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -41,9 +42,7 @@ const router = createBrowserRouter([
             <Chefs />
           </Private>
         ),
-        loader: () => {
-          return null;
-        },
+        loader: fetchAllChefs,
       },
     ],
   },

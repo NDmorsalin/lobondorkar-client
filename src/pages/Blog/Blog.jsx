@@ -68,7 +68,7 @@ const Blog = () => {
             </div>
           </div>
 
-          <div className="mt-4 flex">
+          <div className="mt-4 flex overflow-auto">
             <div>
               <div className="flex items-center h-16 border-l-4 border-blue-600">
                 <span className="text-4xl text-blue-600 px-4">Q.</span>
