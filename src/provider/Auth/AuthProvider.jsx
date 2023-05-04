@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../utility/firebase/firebase.config";
+import { getShoppingCart } from "../../utility/fakedb";
 
 export const AuthContext = createContext();
 
@@ -22,6 +23,16 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [numOfFavorite, setNumOfFavorite] = useState(
+    Object.keys(getShoppingCart()).length
+  );
+
+  //   when clicked add ot Favorite button
+  const clickAddToFavorite = () => {
+    const favorites = Object.keys(getShoppingCart()).length;
+
+    setNumOfFavorite(favorites);
+  };
 
   //   register with email and password
   const register = async (email, password, name, photoUrl) => {
@@ -35,11 +46,10 @@ const AuthProvider = ({ children }) => {
         photoURL: photoUrl || null,
       });
 
-      console.error('register function try',error);
-
+      console.error("register function try", error);
     } catch (error) {
       setError(error.message);
-      console.error('register function cathc',error);
+      console.error("register function cathc", error);
 
       setLoading(false);
     }
@@ -59,7 +69,6 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return sendPasswordResetEmail(auth, email);
   };
-
 
   // login with google
   const googleProvider = new GoogleAuthProvider();
@@ -105,6 +114,8 @@ const AuthProvider = ({ children }) => {
     setLoading,
     setError,
     forgetPassword,
+    numOfFavorite,
+    clickAddToFavorite,
   };
   // console.log(error);
   return (

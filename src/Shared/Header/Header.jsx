@@ -1,13 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { useAuth } from "../../provider/Auth/AuthProvider";
-import { getShoppingCart } from "../../utility/fakedb";
+
 
 import logo from "../../assets/logo.png";
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, logout,numOfFavorite } = useAuth();
 
-  const favorites = Object.keys(getShoppingCart()).length;
 
   return (
     <div className="container px-8 mx-auto">
@@ -118,7 +117,7 @@ const Header = () => {
                   <div className="indicator">
                     <FaHeart />
                     <span className="badge badge-sm indicator-item">
-                      {favorites}
+                      {numOfFavorite}
                     </span>
                   </div>
                 </label>
@@ -127,7 +126,7 @@ const Header = () => {
                   className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow"
                 >
                   <div className="card-body">
-                    <span className="font-bold text-lg">{favorites} Items</span>
+                    <span className="font-bold text-lg">{numOfFavorite} Items</span>
 
                     <div className="card-actions">
                       <NavLink

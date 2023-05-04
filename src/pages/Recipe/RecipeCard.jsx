@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { Rating } from "@smastrom/react-rating";
 import { useMemo, useState } from "react";
 import { getShoppingCart } from "../../utility/fakedb";
+import { useAuth } from "../../provider/Auth/AuthProvider";
 const Star = (
   <path d="M62 25.154H39.082L32 3l-7.082 22.154H2l18.541 13.693L13.459 61L32 47.309L50.541 61l-7.082-22.152L62 25.154z" />
 );
@@ -21,12 +22,14 @@ const myStyles = {
 };
 
 const RecipeCard = ({ recipe, handleAddToCart }) => {
+  const { clickAddToFavorite } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const dbCard = getShoppingCart();
   const handleAddToFavorite = (recipe) => {
     toast("Added to favorite");
     setIsClicked(true);
     handleAddToCart(recipe);
+    clickAddToFavorite();
   };
 
   const checkDb = useMemo(() => {
@@ -36,7 +39,7 @@ const RecipeCard = ({ recipe, handleAddToCart }) => {
       }
     }
   }, [dbCard, recipe.recipe_id]);
-  console.log(checkDb);
+
   return (
     <div className="">
       <div className="flex flex-wrap  bg-green-100 rounded-lg">
