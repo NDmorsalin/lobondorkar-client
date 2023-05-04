@@ -79,14 +79,14 @@ const testimonial = [
   {
     id: 11,
     name: "Harper Lee",
-    img: "https://alanzo.ancorathemes.com/wp-content/uploads/2017/09/testi-5-104x104.jpg",
+    img: "https://alanzo.ancorathemes.com/wp-content/uploads/2017/09/testi-1-104x104.jpg",
     comments:
       "“Thank you for making my parents’ anniversary so special. The food was amazing, as was the service. A perfect evening!”",
   },
   {
     id: 12,
     name: "Owen Garcia",
-    img: "https://alanzo.ancorathemes.com/wp-content/uploads/2017/09/testi-6-104x104.jpg",
+    img: "https://alanzo.ancorathemes.com/wp-content/uploads/2017/09/testi-3-104x104.jpg",
     comments:
       "“Thank you for making my parents’ anniversary so special. The food was amazing, as was the service. A perfect evening!”",
   },
@@ -123,10 +123,6 @@ const Testimonial = () => {
           },
           768: {
             slidesPerView: 3,
-            spaceBetween: 20,
-          },
-          1024: {
-            slidesPerView: 4,
             spaceBetween: 20,
           },
         }}

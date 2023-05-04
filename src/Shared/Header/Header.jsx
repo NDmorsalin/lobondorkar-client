@@ -42,12 +42,12 @@ const Header = () => {
               </li>
               <li>
                 <NavLink
-                  to="/parent"
+                  to="/chefs"
                   className={({ isActive }) =>
                     isActive ? "btn btn-primary" : ""
                   }
                 >
-                  Parent
+                  Chefs
                 </NavLink>
               </li>
               <li>
@@ -89,9 +89,9 @@ const Header = () => {
                 className={({ isActive }) =>
                   isActive ? "btn btn-primary" : ""
                 }
-                to="/parent"
+                to="/chefs"
               >
-                Parent
+                Chefs
               </NavLink>
             </li>
             <li>
