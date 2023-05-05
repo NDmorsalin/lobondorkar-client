@@ -3,6 +3,7 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -44,6 +45,15 @@ const AuthProvider = ({ children }) => {
     });
     toast("Profile updated successfully" + name + photoUrl);
     setLoading(false);
+  };
+
+  // send email verification
+  const verifyEmail = async () => {
+    setLoading(true);
+    await sendEmailVerification(auth.currentUser);
+    setLoading(false);
+
+    return auth.currentUser;
   };
 
   //   register with email and password
@@ -125,7 +135,7 @@ const AuthProvider = ({ children }) => {
     forgetPassword,
     numOfFavorite,
     clickAddToFavorite,
-    updateUserNameAndPhoto,
+    updateUserNameAndPhoto,verifyEmail
   };
   // console.log(error);
   return (

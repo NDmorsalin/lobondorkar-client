@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { useAuth } from "../../provider/Auth/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const Profile = () => {
-  const { user, updateUserNameAndPhoto, loading } = useAuth();
+  const { user, updateUserNameAndPhoto, loading, verifyEmail } = useAuth();
   const [name, setName] = useState(user.displayName);
   const [photoUrl, setPhotoUrl] = useState(user.photoURL);
+
+  const sendEmailVerification = async () => {
+    await verifyEmail();
+    toast("Email verification sent to your email, check your inbox or spam");
+  };
 
   console.log(user);
   return (
@@ -40,9 +46,10 @@ const Profile = () => {
         <div className="mt-4 flex items-center gap-4">
           <button
             disabled={user.emailVerified}
+            onClick={sendEmailVerification}
             className="btn btn-outline btn-info"
           >
-            {user.emailVerified?'Verified':'Verify Email'}
+            {user.emailVerified ? "Verified" : "Verify Email"}
           </button>
 
           {/* The button to open modal */}
@@ -72,7 +79,7 @@ const Profile = () => {
                   htmlFor="imageUrl"
                   className="text-lg font-bold block mb-2"
                 >
-                  Image Url{" "}
+                  Image Url
                 </label>
                 <input
                   value={photoUrl}

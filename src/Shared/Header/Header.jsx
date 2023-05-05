@@ -153,7 +153,7 @@ const Header = () => {
                         to="/favorite"
                         className="btn btn-primary btn-block"
                       >
-                        View cart
+                        View Favorites
                       </NavLink>
                     </div>
                   </div>

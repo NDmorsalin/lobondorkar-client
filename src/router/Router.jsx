@@ -13,6 +13,7 @@ import fetchChefRecipes from "../utility/fetchData/fetchChefRecipes";
 import fetchAllChefs from "../utility/fetchData/fetchAllChefs";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import Profile from "../pages/Profile/Profile";
+import Favorite from "../pages/Favorite/Favorite";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,14 @@ const router = createBrowserRouter([
         element: (
           <Private>
             <Profile />
+          </Private>
+        ),
+      },
+      {
+        path: "/favorite",
+        element: (
+          <Private>
+            <Favorite />
           </Private>
         ),
       },
