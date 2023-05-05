@@ -210,7 +210,7 @@ const Header = () => {
                     <button
                       type="button"
                       onClick={logout}
-                      className="btn btn-warning  "
+                      className="btn btn-warning  text-base-100"
                     >
                       Logout
                     </button>

@@ -12,6 +12,7 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../utility/firebase/firebase.config";
 import { getShoppingCart } from "../../utility/fakedb";
+import { toast } from "react-hot-toast";
 
 export const AuthContext = createContext();
 
@@ -34,6 +35,17 @@ const AuthProvider = ({ children }) => {
     setNumOfFavorite(favorites);
   };
 
+  // update user name and photo
+  const updateUserNameAndPhoto = async (name, photoUrl) => {
+    setLoading(true);
+    await updateProfile(auth.currentUser, {
+      displayName: name || null,
+      photoURL: photoUrl || null,
+    });
+    toast("Profile updated successfully" + name + photoUrl);
+    setLoading(false);
+  };
+
   //   register with email and password
   const register = async (email, password, name, photoUrl) => {
     setLoading(true);
@@ -41,10 +53,7 @@ const AuthProvider = ({ children }) => {
       await createUserWithEmailAndPassword(auth, email, password);
 
       console.log("update profile", name, photoUrl);
-      await updateProfile(auth.currentUser, {
-        displayName: name || null,
-        photoURL: photoUrl || null,
-      });
+      await updateUserNameAndPhoto(name, photoUrl);
 
       console.error("register function try", error);
     } catch (error) {
@@ -116,6 +125,7 @@ const AuthProvider = ({ children }) => {
     forgetPassword,
     numOfFavorite,
     clickAddToFavorite,
+    updateUserNameAndPhoto,
   };
   // console.log(error);
   return (
