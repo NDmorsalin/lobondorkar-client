@@ -187,7 +187,7 @@ const Header = () => {
                 >
                   <li>
                     <NavLink
-                      to="/profile"
+                      to="/me"
                       className={({ isActive }) =>
                         `${isActive ? "btn btn-primary" : ""} justify-between`
                       }

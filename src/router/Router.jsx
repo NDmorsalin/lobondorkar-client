@@ -12,6 +12,7 @@ import Error from "../pages/Error/Error";
 import fetchChefRecipes from "../utility/fetchData/fetchChefRecipes";
 import fetchAllChefs from "../utility/fetchData/fetchAllChefs";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import Profile from "../pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutUs />,
+      },
+      {
+        path: "/me",
+        element: (
+          <Private>
+            <Profile />
+          </Private>
+        ),
       },
       {
         path: "/recipe/:id",
