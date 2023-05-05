@@ -75,7 +75,7 @@ const Login = () => {
     }
     try {
       await forgetPassword(email);
-      toast("Check your email for password reset link", {
+      toast("Don't worry if the email goes to the spam folder", {
         icon: "👏",
       });
       setLoading(false);

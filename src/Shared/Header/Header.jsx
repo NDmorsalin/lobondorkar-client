@@ -63,6 +63,16 @@ const Header = () => {
                   Blog
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "btn btn-primary" : ""
+                  }
+                  to="/about"
+                >
+                  About Us
+                </NavLink>
+              </li>
             </ul>
           </div>
           <NavLink
@@ -105,6 +115,16 @@ const Header = () => {
                 to="/blog"
               >
                 Blog
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "btn btn-primary" : ""
+                }
+                to="/about"
+              >
+                About Us
               </NavLink>
             </li>
           </ul>

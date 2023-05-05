@@ -11,6 +11,7 @@ import Blog from "../pages/Blog/Blog";
 import Error from "../pages/Error/Error";
 import fetchChefRecipes from "../utility/fetchData/fetchChefRecipes";
 import fetchAllChefs from "../utility/fetchData/fetchAllChefs";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/blog",
         element: <Blog />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
       },
       {
         path: "/recipe/:id",
